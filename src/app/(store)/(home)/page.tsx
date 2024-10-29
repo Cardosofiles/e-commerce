@@ -1,16 +1,27 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { Metadata } from "next";
+
 import { api } from "@/data/api";
 import { Product } from "@/data/types/products";
 
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Gerado por create next app",
+};
+
+/**
+ * Função assíncrona que obtém os produtos em destaque da API.
+ * - A configuração de cache para revalidação da página é definida para 1 hora (3600 segundos).
+ * - Ao retornar os produtos, a função faz a conversão do JSON em um array de `Product`.
+ *
+ * @returns {Promise<Product[]>} Lista de produtos em destaque.
+ */
 async function getFeatureProducts(): Promise<Product[]> {
   const response = await api("/products/featured", {
-    // cache: "no-store", faz um nova requesição a cada atualização da página no BD.
-    // cache: "force-cache", requesição única, não terá atualização.
-
     next: {
-      // faz uma nova requesição a cada 1 hora (60s * 60s)
+      // Revalida o cache a cada 1 hora (60s * 60s).
       revalidate: 60 * 60,
     },
   });
@@ -19,13 +30,21 @@ async function getFeatureProducts(): Promise<Product[]> {
   return products;
 }
 
+/**
+ * Componente da página inicial que exibe produtos destacados e outros produtos em uma grade.
+ * - `highLightedProduct` é exibido em uma área maior, enquanto `otherProducts` ocupam espaços menores na grade.
+ * - Cada produto é exibido com imagem, título e preço, e tem uma animação de aumento ao passar o cursor.
+ *
+ * @returns {JSX.Element} A estrutura de layout da página principal com produtos destacados.
+ */
 export default async function Home() {
-  // Simulating a delay of 2 seconds for demonstration purposes
+  // Simula um atraso de 1 segundo para fins de demonstração.
   await new Promise((resolve) => setTimeout(resolve, 1000));
   const [highLightedProduct, ...otherProducts] = await getFeatureProducts();
 
   return (
     <div className="grid max-h-[800px] grid-cols-9 grid-rows-6 gap-6">
+      {/* Produto em destaque: ocupa a maior parte da grade */}
       <Link
         href={`/products/${highLightedProduct.slug}`}
         className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-start"
@@ -52,6 +71,7 @@ export default async function Home() {
         </div>
       </Link>
 
+      {/* Outros produtos em destaque: cada um ocupa uma área menor na grade */}
       {otherProducts.map((otherProduct) => {
         return (
           <Link
