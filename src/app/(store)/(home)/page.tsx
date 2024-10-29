@@ -5,13 +5,23 @@ import { api } from "@/data/api";
 import { Product } from "@/data/types/products";
 
 async function getFeatureProducts(): Promise<Product[]> {
-  const response = await api("/products/featured");
+  const response = await api("/products/featured", {
+    // cache: "no-store", faz um nova requesição a cada atualização da página no BD.
+    // cache: "force-cache", requesição única, não terá atualização.
+
+    next: {
+      // faz uma nova requesição a cada 1 hora (60s * 60s)
+      revalidate: 60 * 60,
+    },
+  });
   const products = await response.json();
 
   return products;
 }
 
 export default async function Home() {
+  // Simulating a delay of 2 seconds for demonstration purposes
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const [highLightedProduct, ...otherProducts] = await getFeatureProducts();
 
   return (
