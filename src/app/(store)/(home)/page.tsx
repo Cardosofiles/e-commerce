@@ -39,7 +39,7 @@ export const metadata: Metadata = {
  */
 export default async function Home() {
   // Simula um atraso de 1 segundo para fins de demonstração.
-  // await new Promise((resolve) => setTimeout(resolve, 1000));a
+  // await new Promise((resolve) => setTimeout(resolve, 1000));
   const [highLightedProduct, ...otherProducts] = await getFeatureProducts();
 
   return (

@@ -21,8 +21,15 @@ export async function GET(
 ) {
   await new Promise((resolve) => setTimeout(resolve, 1000)); // Simula um atraso de 1 segundo.
 
-  const slug = z.string().parse(params.slug); // Valida o slug como uma string.
-  const product = data.products.find((product) => product.slug === slug); // Busca o produto correspondente ao slug.
+  // Aguarda a resolução de params antes de usá-los
+  const { slug } = await params; // Aguarda a resolução de params.
+
+  // Valida o slug utilizando Zod, garantindo que seja uma string.
+  const validatedSlug = z.string().parse(slug);
+  // Procura o produto correspondente ao slug fornecido no arquivo `data.json`.
+  const product = data.products.find(
+    (product) => product.slug === validatedSlug
+  );
 
   // Se o produto não for encontrado, retorna um erro 400 com mensagem apropriada.
   if (!product) {
