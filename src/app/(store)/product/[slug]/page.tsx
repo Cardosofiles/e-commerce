@@ -5,8 +5,12 @@ import { Product } from "@/data/types/products";
 
 import { Metadata } from "next";
 
+// interface ProductProps {
+//   params: { slug: string };
+// }
+
 interface ProductProps {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }
 
 /**
