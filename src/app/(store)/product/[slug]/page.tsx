@@ -3,29 +3,53 @@ import Image from "next/image";
 import { api } from "@/data/api";
 import { Product } from "@/data/types/products";
 
+import { Metadata } from "next";
+
 interface ProductProps {
   params: { slug: string };
 }
 
-// export async function generateMetadata({
-//   params,
-// }: ProductProps): Promise<Metadata> {
-//   const product = await getProduct(params.slug);
+/**
+ * Função assíncrona para gerar metadados de um produto específico com base no `slug` fornecido.
+ * - O título do produto é utilizado como título da página.
+ *
+ * @param {ProductProps} params - Objeto contendo o parâmetro `slug`.
+ * @returns {Promise<Metadata>} Objeto de metadados com o título do produto.
+ */
+export async function generateMetadata({
+  params,
+}: ProductProps): Promise<Metadata> {
+  const { slug } = await Promise.resolve(params);
+  const product = await getProduct(slug);
 
-//   return {
-//     title: product.title,
-//   };
-// }
+  return {
+    title: product.title,
+  };
+}
 
-// export async function generateStaticParams() {
-//   const response = await api("/products/featured");
-//   const products: Product[] = await response.json();
+/**
+ * Função assíncrona que gera parâmetros estáticos para os produtos em destaque.
+ * - Mapeia os produtos em destaque para gerar uma lista de `slug`, usada para renderização estática.
+ *
+ * @returns {Promise<{ slug: string }[]>} Lista de objetos contendo `slug` dos produtos.
+ */
+export async function generateStaticParams() {
+  const response = await api("/products/featured");
+  const products: Product[] = await response.json();
 
-//   return products.map((product) => {
-//     return { slug: product.slug };
-//   });
-// }
+  return products.map((product) => {
+    return { slug: product.slug };
+  });
+}
 
+/**
+ * Função assíncrona que obtém um produto específico a partir do `slug`.
+ * - A configuração de cache para revalidação é definida para 1 hora (3600 segundos).
+ * - Retorna o produto correspondente ao `slug` informado.
+ *
+ * @param {string} slug - Identificador único do produto.
+ * @returns {Promise<Product>} O objeto `Product` referente ao `slug` informado.
+ */
 async function getProduct(slug: string): Promise<Product> {
   const response = await api(`/products/${slug}`, {
     next: {
@@ -38,12 +62,21 @@ async function getProduct(slug: string): Promise<Product> {
   return product;
 }
 
+/**
+ * Componente da página de produto individual, que exibe as informações detalhadas do produto.
+ * - Exibe imagem, título, descrição, preço e opções de tamanho do produto.
+ * - Inclui um botão para adicionar o produto ao carrinho.
+ *
+ * @param {ProductProps} params - Objeto contendo o parâmetro `slug` para identificar o produto.
+ * @returns {JSX.Element} Estrutura de layout para exibição de um produto específico.
+ */
 export default async function ProductPage({ params }: ProductProps) {
   const { slug } = await Promise.resolve(params);
   const product = await getProduct(slug);
 
   return (
     <div className="relative grid max-h-[860px] grid-cols-3">
+      {/* Exibe a imagem do produto */}
       <div className="col-span-2 overflow-hidden">
         <Image
           src={product.image}
@@ -54,6 +87,7 @@ export default async function ProductPage({ params }: ProductProps) {
         />
       </div>
 
+      {/* Informações detalhadas do produto */}
       <div className="flex flex-col justify-center px-12">
         <h1 className="text-3xl font-bold leading-tight">{product.title}</h1>
 
@@ -61,6 +95,7 @@ export default async function ProductPage({ params }: ProductProps) {
           {product.description}
         </p>
 
+        {/* Exibe o preço e o valor parcelado */}
         <div className="mt-8 flex items-center gap-3">
           <span className="inline-block rounded-full bg-violet-500 px-5 py-2.5 font-semibold">
             {product.price.toLocaleString("pt-BR", {
@@ -78,25 +113,23 @@ export default async function ProductPage({ params }: ProductProps) {
           </span>
         </div>
 
-        <div className=" mt-8 space-y-4">
+        {/* Seleção de tamanhos do produto */}
+        <div className="mt-8 space-y-4">
           <span className="block font-semibold">Tamanhos</span>
 
           <div className="flex gap-2">
-            <button className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold-s">
-              P
-            </button>
-            <button className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold-s">
-              M
-            </button>
-            <button className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold-s">
-              G
-            </button>
-            <button className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold-s">
-              GG
-            </button>
+            {["P", "M", "G", "GG"].map((size) => (
+              <button
+                key={size}
+                className="flex h-9 w-14 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-sm font-semibold-s"
+              >
+                {size}
+              </button>
+            ))}
           </div>
         </div>
 
+        {/* Botão de adicionar ao carrinho */}
         <button className="mt-8 flex h-12 items-center justify-center rounded-full bg-emerald-600 font-semibold text-white">
           Adicionar ao carrinho
         </button>
