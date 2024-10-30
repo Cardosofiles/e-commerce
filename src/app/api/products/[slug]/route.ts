@@ -2,7 +2,6 @@ import { z } from "zod";
 
 import data from "../data.json";
 
-type Params = Promise<{ slug: string }>;
 export async function GET(
   _: Request,
   { params }: { params: { slug: string } }

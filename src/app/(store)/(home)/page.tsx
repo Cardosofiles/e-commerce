@@ -6,11 +6,6 @@ import { Metadata } from "next";
 import { api } from "@/data/api";
 import { Product } from "@/data/types/products";
 
-export const metadata: Metadata = {
-  title: "Home",
-  description: "Gerado por create next app",
-};
-
 /**
  * Função assíncrona que obtém os produtos em destaque da API.
  * - A configuração de cache para revalidação da página é definida para 1 hora (3600 segundos).
@@ -30,6 +25,11 @@ async function getFeatureProducts(): Promise<Product[]> {
   return products;
 }
 
+export const metadata: Metadata = {
+  title: "Home",
+  description: "Gerado por create next app",
+};
+
 /**
  * Componente da página inicial que exibe produtos destacados e outros produtos em uma grade.
  * - `highLightedProduct` é exibido em uma área maior, enquanto `otherProducts` ocupam espaços menores na grade.
@@ -39,19 +39,19 @@ async function getFeatureProducts(): Promise<Product[]> {
  */
 export default async function Home() {
   // Simula um atraso de 1 segundo para fins de demonstração.
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  // await new Promise((resolve) => setTimeout(resolve, 1000));a
   const [highLightedProduct, ...otherProducts] = await getFeatureProducts();
 
   return (
     <div className="grid max-h-[800px] grid-cols-9 grid-rows-6 gap-6">
       {/* Produto em destaque: ocupa a maior parte da grade */}
       <Link
-        href={`/products/${highLightedProduct.slug}`}
+        href={`/product/${highLightedProduct.slug}`}
         className="group relative col-span-6 row-span-6 rounded-lg bg-zinc-900 overflow-hidden flex justify-center items-start"
       >
         <Image
           src={highLightedProduct.image}
-          alt=""
+          alt="Image"
           width={920}
           height={920}
           quality={100}
