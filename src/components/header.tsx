@@ -1,6 +1,7 @@
-import { Search, ShoppingBag } from "lucide-react";
+import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { CartWidget } from "./cart-widget";
 
 /**
  * Componente de cabeçalho para a aplicação, incluindo link para a home, barra de busca, ícone do carrinho e conta do usuário.
@@ -34,11 +35,8 @@ export function Header() {
 
       {/* Seção de informações do usuário e carrinho */}
       <div className="flex items-center gap-4">
-        {/* Carrinho de compras com ícone e quantidade de itens */}
-        <div className="flex items-center gap-2">
-          <ShoppingBag className="w-4 h-4" />
-          <span className="text-sm">Cart (0)</span>
-        </div>
+        {/* Carrinho de compras com ícone e quantidade de itens em um componente separado, para não retornar todo o HTML do header como use client */}
+        <CartWidget />
 
         {/* Divisor visual entre carrinho e link de conta */}
         <div className="w-px h-4 bg-zinc-700" />

@@ -7,7 +7,7 @@ import { ReactNode, createContext, useContext, useState } from "react";
  * - Contém o ID do produto e a quantidade selecionada.
  */
 interface CartItem {
-  productId: string; // ID único do produto
+  productId: number; // ID único do produto
   quantity: number; // Quantidade do produto no carrinho
 }
 
@@ -18,7 +18,7 @@ interface CartItem {
  */
 interface CartContextType {
   items: CartItem[]; // Lista dos itens no carrinho
-  addToCart: (productId: string) => void; // Função para adicionar item ao carrinho
+  addToCart: (productId: number) => void; // Função para adicionar item ao carrinho
 }
 
 /**
@@ -44,7 +44,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
    *
    * @param {string} productId - ID do produto a ser adicionado ao carrinho.
    */
-  function addToCart(productId: string) {
+  function addToCart(productId: number) {
     setCartItems((state) => {
       const productInCart = state.some((item) => item.productId === productId);
       if (productInCart) {
