@@ -2,7 +2,8 @@ import { z } from "zod";
 
 // Define um esquema de validação para as variáveis de ambiente utilizando Zod.
 const envSchema = z.object({
-  NEXT_PUBLIC_API_BASE_URL: z.string().url(), // A variável de ambiente deve ser uma URL válida.
+  NEXT_PUBLIC_API_BASE_URL: z.string().url(),
+  APP_URL: z.string().url(),
 });
 
 // Tenta analisar as variáveis de ambiente de acordo com o esquema definido.

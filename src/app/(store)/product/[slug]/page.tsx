@@ -1,9 +1,9 @@
 import Image from "next/image";
 
+import { Metadata } from "next";
+
 import { api } from "@/data/api";
 import { Product } from "@/data/types/products";
-
-import { Metadata } from "next";
 
 // interface ProductProps {
 //   params: { slug: string };

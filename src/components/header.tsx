@@ -50,8 +50,10 @@ export function Header() {
             className="w-8 h-8 rounded-full"
             width={480}
             height={480}
+            // Qualidade renderizada na página
             quality={100}
             alt="logo profile"
+            // Acessa a imagem do perfil do Github
             src="https://github.com/cardosofiles.png"
           />
         </Link>
