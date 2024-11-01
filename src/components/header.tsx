@@ -1,7 +1,8 @@
-import { Search } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+
 import { CartWidget } from "./cart-widget";
+import { SearchForm } from "./search-form";
 
 /**
  * Componente de cabeçalho para a aplicação, incluindo link para a home, barra de busca, ícone do carrinho e conta do usuário.
@@ -19,18 +20,8 @@ export function Header() {
           devstore
         </Link>
 
-        {/* Formulário de busca */}
-        <form className="flex w-[320px] items-center gap-3 rounded-full bg-zinc-900 px-5 py-3 ring-zinc-700">
-          {/* Ícone de busca */}
-          <Search className="w-4 h-4 text-zinc-500" />
-
-          {/* Campo de entrada de texto para pesquisa de produto */}
-          <input
-            type="text"
-            placeholder="Buscar produto..."
-            className="flex-1 bg-transparent text-sm outline-none placeholder:text-zinc-500"
-          />
-        </form>
+        {/* use client para carregamento do input, com a função de buscar dos produtos */}
+        <SearchForm />
       </div>
 
       {/* Seção de informações do usuário e carrinho */}

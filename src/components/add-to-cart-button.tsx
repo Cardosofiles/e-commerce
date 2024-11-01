@@ -1,7 +1,7 @@
 "use client";
 
 // Contexto para gerenciamento de estados e propriedades
-import { useCart } from "@/contexts/card-context";
+import { useCart } from "@/contexts/cart-context";
 
 export interface AddToCartButtonProps {
   productId: number;

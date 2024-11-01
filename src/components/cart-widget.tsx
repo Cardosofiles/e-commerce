@@ -1,8 +1,16 @@
 "use client";
 
-import { useCart } from "@/contexts/card-context";
 import { ShoppingBag } from "lucide-react";
 
+import { useCart } from "@/contexts/cart-context";
+
+/**
+ * Componente `CartWidget` que exibe o ícone de um carrinho de compras com a quantidade de itens.
+ * - Utiliza o contexto `useCart` para acessar os itens adicionados ao carrinho.
+ * - Exibe um ícone de sacola e a quantidade de itens entre parênteses ao lado.
+ *
+ * @returns {JSX.Element} Elemento JSX representando o widget do carrinho com o ícone e o contador de itens.
+ */
 export function CartWidget() {
   const { items } = useCart();
 

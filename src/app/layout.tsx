@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
+// Carregamento das fontes locais com suporte para variação de peso
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
@@ -15,9 +16,9 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-// Nome da página no navegador
+// Metadados da aplicação
 export const metadata: Metadata = {
-  // title: { ' %s | name-aplication ' }, recebe um obejto com as exportações por página da aplicação
+  // Título da página no navegador, usando um template
   title: {
     template: "%s | devstore",
     default: "devstore",
@@ -25,6 +26,14 @@ export const metadata: Metadata = {
   description: "",
 };
 
+/**
+ * Layout raiz da aplicação (`RootLayout`).
+ * - Envolve todos os componentes filhos e define a estrutura básica da página.
+ * - Aplica estilos globais e fontes personalizadas.
+ *
+ * @param {Readonly<{ children: React.ReactNode }>} props - Propriedades que contêm os elementos filhos a serem renderizados.
+ * @returns {JSX.Element} Estrutura HTML básica com as fontes e estilos aplicados.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
