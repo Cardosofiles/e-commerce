@@ -13,6 +13,8 @@ import { FormEvent } from "react";
  */
 export function SearchForm() {
   const router = useRouter();
+
+  // useSearchParms, pode ser usado apenas em client component "use client"
   const searchParms = useSearchParams();
 
   const query = searchParms.get("q");
