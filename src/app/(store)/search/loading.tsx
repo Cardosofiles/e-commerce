@@ -1,15 +1,33 @@
-import { LoaderCircle } from "lucide-react";
+"use client";
+
+import { Skeleton } from "@/components/skeleton";
+import { useSearchParams } from "next/navigation";
 
 /**
- * Componente de carregamento (`SearchLoading`).
- * - Exibe um ícone de carregamento com animação de rotação enquanto uma busca está em andamento.
+ * Componente de carregamento da busca (`SearchLoading`).
+ * - Renderiza um estado de carregamento enquanto os resultados da busca estão sendo obtidos.
+ * - Exibe um esqueleto (`Skeleton`) para indicar onde os produtos serão carregados, com base na consulta de pesquisa.
  *
- * @returns {JSX.Element} Elemento de carregamento animado.
+ * @returns {JSX.Element} Layout de carregamento com esqueleto de produtos enquanto os resultados são carregados.
  */
 export default function SearchLoading() {
+  const searchParams = useSearchParams();
+  const query = searchParams.get("q");
+
   return (
-    <div>
-      <LoaderCircle className="animate-spin" />
+    <div className="flex flex-col gap-4">
+      <p className="text-sm">
+        Resultados para: <span className="font-semibold">{query}</span>
+      </p>
+
+      <div className="grid grid-cols-3 gap-6">
+        <Skeleton className="h-[420px]" />
+        <Skeleton className="h-[420px]" />
+        <Skeleton className="h-[420px]" />
+        <Skeleton className="h-[420px]" />
+        <Skeleton className="h-[420px]" />
+        <Skeleton className="h-[420px]" />
+      </div>
     </div>
   );
 }
